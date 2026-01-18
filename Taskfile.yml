@@ -21,21 +21,21 @@ tasks:
     cmds:
       - rm -fr {{.NVIM_CONFIG_PATH}}
       - cp -r nvim {{.NVIM_CONFIG_PATH}}
-    silent: true
+    silent: false
 
   nvim-pull:
     desc: "Pulls NVIM config from {{.NVIM_CONFIG_PATH}}"
     cmds:
       - rm -fr nvim
       - cp -r {{.NVIM_CONFIG_PATH}} nvim
-    silent: true
+    silent: false
     
   nvim-link:
     desc: "Links NVIM config at {{.NVIM_CONFIG_PATH}} to this copy"
     cmds:
       - rm -fr {{.NVIM_CONFIG_PATH}}
       - ln -s nvim {{.NVIM_CONFIG_PATH}}
-    silent: true
+    silent: false
 
   tmux-push:
     desc: "Pushes tmux config to {{.TMUX_CONFIG_FILE}} and {{.TMUX_CONFIG_PATH}}"
@@ -44,7 +44,7 @@ tasks:
       - cp -r tmux/.tmux {{.TMUX_CONFIG_PATH}} 
       - cp -r tmux/.tmux.conf {{.TMUX_CONFIG_FILE}} 
       - git clone https://github.com/tmux-plugins/tpm {{.TMUX_CONFIG_PATH}}/plugins/tpm
-    silent: true
+    silent: false
 
   tmux-pull:
     desc: "Pulls tmux config from {{.TMUX_CONFIG_FILE}} and {{.TMUX_CONFIG_PATH}}"
@@ -52,7 +52,7 @@ tasks:
       - rm -fr tmux/* 
       - cp -r {{.TMUX_CONFIG_PATH}} tmux/
       - cp -r {{.TMUX_CONFIG_FILE}} tmux/
-    silent: true
+    silent: false
 
   tmux-link:
     desc: "Links tmux config at {{.TMUX_CONFIG_FILE}} and {{.TMUX_CONFIG_PATH}} to this copy"
@@ -61,7 +61,7 @@ tasks:
       - ln -s tmux/.tmux {{.TMUX_CONFIG_PATH}} 
       - ln -s tmux/.tmux.conf {{.TMUX_CONFIG_FILE}} 
       - git clone https://github.com/tmux-plugins/tpm tmux/.tmux/plugins/tpm
-    silent: true
+    silent: false
 
   bash-push:
     desc: "Pushes bash configs to {{.BASH_CONFIG_PATH}}"
@@ -70,18 +70,18 @@ tasks:
       - cp -r bash {{.BASH_CONFIG_PATH}}
       - for f in {{.BASH_CONFIG_PATH}}/*; do echo "source '$(readlink -f $f)'" >> ~/.bashrc; done
       - source ~/.bashrc
-    silent: true
+    silent: false
 
   bash-pull:
     desc: "Pulls bash configs from {{.BASH_CONFIG_PATH}}"
     cmds:
       - rm -fr bash
       - cp -r {{.BASH_CONFIG_PATH}} bash
-    silent: true
+    silent: false
 
   bash-link:
     desc: "Links bash configs at {{.BASH_CONFIG_PATH}}"
     cmds:
       - rm -fr {{.BASH_CONFIG_PATH}}
       - ln -s bash {{.BASH_CONFIG_PATH}} 
-    silent: true
+    silent: false

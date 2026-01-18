@@ -1,7 +1,2 @@
-git clone repo .config
+nclude reqs for neovim
 
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-
-~/.config/nvim
-~/.tmux
-~/.tmux.conf
