@@ -3,11 +3,85 @@
 version: '3'
 
 vars:
-  GREETING: Hello, world!
+  NVIM_CONFIG_PATH: ~/.config/nvim/
+  TMUX_CONFIG_FILE: ~/.tmux.conf
+  TMUX_CONFIG_PATH: ~/.tmux/
+  BASH_CONFIG_PATH: ~/.bash_configs/
 
 tasks:
-  default:
-    desc: Print a greeting message
+  push:
+    deps: [nvim-push, tmux-push, bash-push]
+  pull:
+    deps: [nvim-pull, tmux-pull, bash-pull]
+  link:
+    deps: [nvim-link, tmux-link, bash-link]
+
+  nvim-push:
+    desc: "Pushes NVIM config to {{.NVIM_CONFIG_PATH}}"
     cmds:
-      - echo "{{.GREETING}}"
+      - rm -fr {{.NVIM_CONFIG_PATH}}
+      - cp -r nvim {{.NVIM_CONFIG_PATH}}
+    silent: true
+
+  nvim-pull:
+    desc: "Pulls NVIM config from {{.NVIM_CONFIG_PATH}}"
+    cmds:
+      - rm -fr nvim
+      - cp -r {{.NVIM_CONFIG_PATH}} nvim
+    silent: true
+    
+  nvim-link:
+    desc: "Links NVIM config at {{.NVIM_CONFIG_PATH}} to this copy"
+    cmds:
+      - rm -fr {{.NVIM_CONFIG_PATH}}
+      - ln -s nvim {{.NVIM_CONFIG_PATH}}
+    silent: true
+
+  tmux-push:
+    desc: "Pushes tmux config to {{.TMUX_CONFIG_FILE}} and {{.TMUX_CONFIG_PATH}}"
+    cmds:
+      - rm -fr {{.TMUX_CONFIG_PATH}}
+      - cp -r tmux/.tmux {{.TMUX_CONFIG_PATH}} 
+      - cp -r tmux/.tmux.conf {{.TMUX_CONFIG_FILE}} 
+      - git clone https://github.com/tmux-plugins/tpm {{.TMUX_CONFIG_PATH}}/plugins/tpm
+    silent: true
+
+  tmux-pull:
+    desc: "Pulls tmux config from {{.TMUX_CONFIG_FILE}} and {{.TMUX_CONFIG_PATH}}"
+    cmds:
+      - rm -fr tmux/* 
+      - cp -r {{.TMUX_CONFIG_PATH}} tmux/
+      - cp -r {{.TMUX_CONFIG_FILE}} tmux/
+    silent: true
+
+  tmux-link:
+    desc: "Links tmux config at {{.TMUX_CONFIG_FILE}} and {{.TMUX_CONFIG_PATH}} to this copy"
+    cmds:
+      - rm -fr {{.TMUX_CONFIG_PATH}}
+      - ln -s tmux/.tmux {{.TMUX_CONFIG_PATH}} 
+      - ln -s tmux/.tmux.conf {{.TMUX_CONFIG_FILE}} 
+      - git clone https://github.com/tmux-plugins/tpm tmux/.tmux/plugins/tpm
+    silent: true
+
+  bash-push:
+    desc: "Pushes bash configs to {{.BASH_CONFIG_PATH}}"
+    cmds:
+      - rm -fr {{.BASH_CONFIG_PATH}}
+      - cp -r bash {{.BASH_CONFIG_PATH}}
+      - for f in {{.BASH_CONFIG_PATH}}/*; do echo "source '$(readlink -f $f)'" >> ~/.bashrc; done
+      - source ~/.bashrc
+    silent: true
+
+  bash-pull:
+    desc: "Pulls bash configs from {{.BASH_CONFIG_PATH}}"
+    cmds:
+      - rm -fr bash
+      - cp -r {{.BASH_CONFIG_PATH}} bash
+    silent: true
+
+  bash-link:
+    desc: "Links bash configs at {{.BASH_CONFIG_PATH}}"
+    cmds:
+      - rm -fr {{.BASH_CONFIG_PATH}}
+      - ln -s bash {{.BASH_CONFIG_PATH}} 
     silent: true

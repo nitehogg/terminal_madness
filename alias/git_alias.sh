@@ -1,0 +1,8 @@
+alias gss="git status"
+alias gpu"git push"
+alias gp="git pull"
+alias gpo="git pull origin "
+alias gc="git commit -am"
+alias gs="git stash"
+alias gsp="git stash pop"
+alias gbu="git branch -u $(git branch --show-current)"
