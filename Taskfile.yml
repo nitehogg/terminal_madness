@@ -68,7 +68,18 @@ tasks:
     cmds:
       - rm -fr {{.BASH_CONFIG_PATH}}
       - cp -r bash {{.BASH_CONFIG_PATH}}
-      - for f in {{.BASH_CONFIG_PATH}}/*; do echo "source '$(readlink -f $f)'" >> ~/.bashrc; done
+      - |
+        for f in {{.BASH_CONFIG_PATH}}/*
+        do
+          FILE_PATH="$(readlink -f $f)"
+
+          if grep "$FILE_PATH" ~/.bashrc
+          then
+            continue
+          fi
+
+          echo "source '$FILE_PATH'" >> ~/.bashrc
+        done
       - source ~/.bashrc
     silent: false
 
