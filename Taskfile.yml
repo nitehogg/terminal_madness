@@ -3,17 +3,20 @@
 version: '3'
 
 vars:
-  NVIM_CONFIG_PATH: ~/.config/nvim/
+  NVIM_CONFIG_PATH: ~/.config/nvim
   TMUX_CONFIG_FILE: ~/.tmux.conf
-  TMUX_CONFIG_PATH: ~/.tmux/
-  BASH_CONFIG_PATH: ~/.bash_configs/
+  TMUX_CONFIG_PATH: ~/.tmux
+  BASH_CONFIG_PATH: ~/.bash_configs
 
 tasks:
   push:
+    desc: Push all configs
     deps: [nvim-push, tmux-push, bash-push]
   pull:
+    desc: Pull all configs
     deps: [nvim-pull, tmux-pull, bash-pull]
   link:
+    desc: Link all configs
     deps: [nvim-link, tmux-link, bash-link]
 
   nvim-push:
@@ -43,7 +46,7 @@ tasks:
       - rm -fr {{.TMUX_CONFIG_PATH}}
       - cp -r tmux/.tmux {{.TMUX_CONFIG_PATH}} 
       - cp -r tmux/.tmux.conf {{.TMUX_CONFIG_FILE}} 
-      - git clone https://github.com/tmux-plugins/tpm {{.TMUX_CONFIG_PATH}}/plugins/tpm
+      - "[ ! -d {{.TMUX_CONFIG_PATH}}/plugins ] && git clone https://github.com/tmux-plugins/tpm {{.TMUX_CONFIG_PATH}}/plugins/tpm || true"
     silent: false
 
   tmux-pull:
