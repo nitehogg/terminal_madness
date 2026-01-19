@@ -1,42 +1,50 @@
 function tmux_neovim() {
 
-  local WINDOW_PATH="$1"
+  local WINDOW_PATHS=$@
 
-  if [ $WINDOW_PATH ]
+  if [ $# -eq 0 ]
   then
-    tmux_neovim_add "$1"
-    return
+    WINDOW_PATHS="$(pwd)"
   fi
 
-  if tmux ls
-  then
-    tmux_neovim_add "$(pwd)"
-    return
-  fi
-
-  tmux_neovim_new
+  tmux_neovim_controller $WINDOW_PATHS
 }
 
-function tmux_neovim_new() {
+function tmux_neovim_controller() {
+  
+  if ! tmux ls > /dev/null
+  then
+    tmux_neovim_new "$1"
+    shift
+  fi
 
-  local WINDOW_NAME="$(basename $(pwd))"
+  for WINDOW_PATH in $@
+  do
+    tmux_neovim_add "$WINDOW_PATH"
+  done
 
-  tmux new-session -d -n "$WINDOW_NAME" nvim 
   tmux set-option status-bg color31
   tmux attach
 }
 
+function tmux_neovim_new() {
+
+  local WINDOW_PATH="$1"
+
+  WINDOW_PATH="$(readlink -f "$WINDOW_PATH")"
+  local WINDOW_NAME="$(basename "$WINDOW_PATH")"
+
+  tmux new-session -d -c "$WINDOW_PATH" -n "$WINDOW_NAME" nvim 
+}
+
 function tmux_neovim_add() {
 
-  local WINDOW_PATHS=$1
+  local WINDOW_PATH="$1"
 
-  for WINDOW_PATH in $WINDOW_PATHS
-  do
-    local WINDOW_PATH_FULL="$(readlink -f "$WINDOW_PATH")"
-    local WINDOW_NAME="$(basename $WINDOW_PATH_FULL)"
+  WINDOW_PATH="$(readlink -f "$WINDOW_PATH")"
+  local WINDOW_NAME="$(basename $WINDOW_PATH)"
 
-    tmux new-window -c "$WINDOW_PATH_FULL" -n "$WINDOW_NAME" nvim
-  done 
+  tmux new-window -c "$WINDOW_PATH" -n "$WINDOW_NAME" nvim
 }
 
 alias nv="nvim"
