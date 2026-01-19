@@ -23,6 +23,8 @@ if not pcall(require, "lazy") then
   vim.cmd.quit()
 end
 
-require "auto_reload"
 require "lazy_setup"
 require "polish"
+
+require "auto_reload"
+require "custom_keymaps"

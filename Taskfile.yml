@@ -73,7 +73,6 @@ tasks:
       - cp -rv bash {{.BASH_CONFIG_PATH}}
       - |
         for f in {{.BASH_CONFIG_PATH}}/*
-
         do
           FILE_PATH="$(readlink -f $f)"
 
