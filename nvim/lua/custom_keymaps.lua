@@ -8,7 +8,4 @@ wk.add({
   { "<leader>li", "<cmd>LspInfo<cr>", desc = "LspInfo", mode = "n" },
   { "<leader>be", "<cmd>e<cr>", desc = "Reload buffer", mode = "n" },
 })
-
--- surround text
--- search and replace
  
