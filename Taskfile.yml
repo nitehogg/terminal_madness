@@ -21,6 +21,8 @@ tasks:
 
   nvim-push:
     desc: "Pushes NVIM config to {{.NVIM_CONFIG_PATH}}"
+    sources:
+      - "nvim/**/*"
     cmds:
       - rm -fr {{.NVIM_CONFIG_PATH}}
       - cp -rv nvim {{.NVIM_CONFIG_PATH}}
@@ -42,6 +44,8 @@ tasks:
 
   tmux-push:
     desc: "Pushes tmux config to {{.TMUX_CONFIG_FILE}} and {{.TMUX_CONFIG_PATH}}"
+    sources:
+      - "tmux/**/*"
     cmds:
       - rm -fr {{.TMUX_CONFIG_PATH}}
       - cp -rv tmux/.tmux {{.TMUX_CONFIG_PATH}} 
@@ -68,6 +72,8 @@ tasks:
 
   bash-push:
     desc: "Pushes bash configs to {{.BASH_CONFIG_PATH}}"
+    sources:
+      - "bash/**/*"
     cmds:
       - rm -fr {{.BASH_CONFIG_PATH}}
       - cp -rv bash {{.BASH_CONFIG_PATH}}
