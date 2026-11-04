@@ -4,8 +4,8 @@ function set_upsteam_origin() {
 
 function checkout_branch() {
   BRANCH_NAME="$1"
-  
-  git push --set-upstream origin "$(git branch --show-current)"
+
+  git fetch
 
   if ! git checkout "$BRANCH_NAME"
   then
