@@ -5,8 +5,6 @@ function set_upsteam_origin() {
 function checkout_branch() {
   BRANCH_NAME="$1"
 
-  git fetch
-
   if ! git checkout "$BRANCH_NAME"
   then
     git checkout -b "$BRANCH_NAME"
@@ -15,6 +13,7 @@ function checkout_branch() {
 
 alias gs="git status"
 alias ga="git add ."
+alias gf="git fetch"
 alias gb="checkout_branch"
 alias gbi="git pull"
 alias gbo="git push"
