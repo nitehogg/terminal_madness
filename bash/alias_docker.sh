@@ -7,4 +7,4 @@ function docker_run() {
     docker run -it --rm --entrypoint /bin/sh "$IMAGE_ADDRESS" 2> /dev/null
 }
 
-alias docker_run="docker_run"
+alias docker-run="docker_run"

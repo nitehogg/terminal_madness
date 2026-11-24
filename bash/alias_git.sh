@@ -38,13 +38,31 @@ function git_pull() {
   git pull
 }
 
+function git_tag() {
+  TAG="$1"
+
+  git tag "$TAG"
+  git push --tags
+}
+
+function git_tag_delete() {
+  TAG="$1"
+
+  git tag -d "$TAG"
+  git push --delete origin "refs/tags/$TAG"
+}
+
 alias gs="git status"
 alias ga="git add ."
+alias gd="git diff"
 alias gf="git fetch"
 alias gb="git_checkout"
 alias gbi="git_pull"
 alias gbo="git_push"
+alias gbx="git branch -D"
 alias gc="git_commit"
 alias gso="git stash"
 alias gsi="git stash pop"
 alias gpu="set_upsteam_origin"
+alias gt="git_tag"
+alias gtx="git_tag_delete"
